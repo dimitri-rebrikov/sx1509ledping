@@ -116,6 +116,27 @@ class SX1509:
     RegTest1 			 = 0x7E # Test register 0000 0000 
     RegTest2 			 = 0x7F # Test register 0000 0000   
 
+    RegTOn = [
+        RegTOn0, RegTOn1, RegTOn2, RegTOn3, 
+        RegTOn4, RegTOn5, RegTOn6, RegTOn7,
+        RegTOn8, RegTOn9, RegTOn10, RegTOn11, 
+        RegTOn12, RegTOn13, RegTOn14, RegTOn15
+    ]
+
+    RegIOn = [
+        RegIOn0, RegIOn1, RegIOn2, RegIOn3, 
+        RegIOn4, RegIOn5, RegIOn6, RegIOn7,
+        RegIOn8, RegIOn9, RegIOn10, RegIOn11, 
+        RegIOn12, RegIOn13, RegIOn14, RegIOn15
+    ]
+
+    RegOff = [
+        RegOff0, RegOff1, RegOff2, RegOff3, 
+        RegOff4, RegOff5, RegOff6, RegOff7,
+        RegOff8, RegOff9, RegOff10, RegOff11, 
+        RegOff12, RegOff13, RegOff14, RegOff15
+    ]
+
     def __init__(self, i2c_addr):
         self.i2c_addr = i2c_addr
         import smbus

@@ -144,3 +144,7 @@ class SX1509:
 
     def write(self, register, data):
         self.bus.write_byte_data(self.i2c_addr, register, data)
+
+    def read(self, register) -> int:
+        return self.bus.read_byte_data(self.i2c_addr, register)
+        

@@ -21,7 +21,7 @@ class LEDControl:
         # enable internal oscillator
         sx.write(sx.RegClock, 0b01000000)
         # define frequency
-        sx.write(sx.RegMisc, 0b00110000)
+        sx.write(sx.RegMisc, 0b00110100)
         # enable led driver for all pins
         sx.write(sx.RegLEDDriverEnableA, 0b11111111)
         sx.write(sx.RegLEDDriverEnableB, 0b11111111)
@@ -41,11 +41,20 @@ class LEDControl:
             self.sx.write(reg, self.sx.read(reg) | 1 << shift)
 
     def ledOn(self, id: int):
-        led(self, id, True)             
+        self.led(id, True)             
 
-    def ledOff(id: int):
-        led(self, id, False)
+    def ledOff(self, id: int):
+        self.led(id, False)
 
-    def ledBlink(id: int):
-        print(id)
+    def ledBlink(self, id: int):
+        self.sx.write(self.sx.RegTOn[id], 0b00001111)
+        self.sx.write(self.sx.RegOff[id], 0b01111000)
+        # (re-)define frequency
+        self.sx.write(self.sx.RegMisc, 0b00110100)
+        self.ledOn(id)
+
+    def ledStopBlink(self, id: int):
+        self.sx.write(self.sx.RegTOn[id], 0b00000000)
+        self.sx.write(self.sx.RegTOn[id], 0b00000000)
+        self.ledOff(id)
     

@@ -1,0 +1,10 @@
+from LEDPingStatus import PingTarget
+
+sx1509Addr = 0x3e
+
+pingTargets = [
+    PingTarget('127.0.0.1', True),
+    PingTarget('8.8.8.8', True),
+    PingTarget('blubbblubb', False),
+    PingTarget('blahblah', True)
+]

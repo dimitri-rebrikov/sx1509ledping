@@ -14,7 +14,7 @@ class LEDPingStatus:
     BusyLed = 7
 
     LedMapping = [
-        0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15
+        15, 14, 13, 12, 11, 10, 9, 8, 6, 5, 4, 3, 2, 1
     ]
     
     def __init__(self, ledControl: LEDControl, pingTargets: List[PingTarget]):
@@ -29,7 +29,7 @@ class LEDPingStatus:
             for pingTarget in self.pingTargets:
                 if not self.run:
                     break
-                ok = os.system("ping -c 1 " + pingTarget.pingAddress) # + " > /dev/null 2>&1")
+                ok = os.system("ping -c 1 -w 5 " + pingTarget.pingAddress + " > /dev/null")
                 if ok == 0:
                     self.ledControl.ledOn(self.LedMapping[ledId])
                 elif pingTarget.important:

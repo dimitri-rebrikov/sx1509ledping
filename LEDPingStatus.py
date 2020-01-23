@@ -18,17 +18,31 @@ class LEDPingStatus:
     ]
     
     def __init__(self, ledControl: LEDControl, pingTargets: List[PingTarget]):
-        while True:
+        self.ledControl = ledControl
+        self.pingTargets = pingTargets
+
+    def start(self):
+        self.run = True
+        while self.run:
             ledId = 0;
-            ledControl.ledOn(self.BusyLed)
-            for pingTarget in pingTargets:
-                ok = os.system("ping -c 1 -w2 " + pingTarget.pingAddress) # + " > /dev/null 2>&1")
+            self.ledControl.ledOn(self.BusyLed)
+            for pingTarget in self.pingTargets:
+                if not self.run:
+                    break
+                ok = os.system("ping -c 1 " + pingTarget.pingAddress) # + " > /dev/null 2>&1")
                 if ok == 0:
-                    ledControl.ledOn(self.LedMapping[ledId])
+                    self.ledControl.ledOn(self.LedMapping[ledId])
                 elif pingTarget.important:
-                    ledControl.ledBlink(self.LedMapping[ledId])
+                    self.ledControl.ledBlink(self.LedMapping[ledId])
                 else:
-                    ledControl.ledOff(self.LedMapping[ledId])
+                    self.ledControl.ledOff(self.LedMapping[ledId])
                 ledId += 1
-            ledControl.ledOff(self.BusyLed)
-            time.sleep(3)
+            self.ledControl.ledOff(self.BusyLed)
+            if self.run:
+                time.sleep(3)
+        for i in range(0, 16):
+            self.ledControl.ledOff(i)
+
+    def stop(self):
+        self.run = False
+        

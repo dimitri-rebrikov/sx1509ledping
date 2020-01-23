@@ -4,31 +4,36 @@ class LEDControl:
     
     def __init__(self, sx: SX1509):
         self.sx = sx
-        # reset 
-        sx.write(sx.RegReset, 0x12)
-        sx.write(sx.RegReset, 0x34)
+        self.init()
+
+    def reset(self):
+        self.sx.write(self.sx.RegReset, 0x12)
+        self.sx.write(self.sx.RegReset, 0x34)
+
+    def init(self):
+        self.reset()
         # disable input
-        sx.write(sx.RegInputDisableA, 0b11111111) 
-        sx.write(sx.RegInputDisableB, 0b11111111) 
+        self.sx.write(self.sx.RegInputDisableA, 0b11111111) 
+        self.sx.write(self.sx.RegInputDisableB, 0b11111111) 
         # disable pull up
-        sx.write(sx.RegPullUpA, 0b00000000)
-        sx.write(sx.RegPullUpB, 0b00000000)
+        self.sx.write(self.sx.RegPullUpA, 0b00000000)
+        self.sx.write(self.sx.RegPullUpB, 0b00000000)
         # enable drain
-        sx.write(sx.RegOpenDrainA, 0b11111111)
-        sx.write(sx.RegOpenDrainB, 0b11111111)
+        self.sx.write(self.sx.RegOpenDrainA, 0b11111111)
+        self.sx.write(self.sx.RegOpenDrainB, 0b11111111)
         # register all pins to output
-        sx.write(sx.RegDirA, 0b00000000)
-        sx.write(sx.RegDirB, 0b00000000)
+        self.sx.write(self.sx.RegDirA, 0b00000000)
+        self.sx.write(self.sx.RegDirB, 0b00000000)
         # enable internal oscillator
-        sx.write(sx.RegClock, 0b01000000)
+        self.sx.write(self.sx.RegClock, 0b01000000)
         # define frequency
-        sx.write(sx.RegMisc, 0b00110100)
+        self.sx.write(self.sx.RegMisc, 0b00110100)
         # enable led driver for all pins
-        sx.write(sx.RegLEDDriverEnableA, 0b11111111)
-        sx.write(sx.RegLEDDriverEnableB, 0b11111111)
+        self.sx.write(self.sx.RegLEDDriverEnableA, 0b11111111)
+        self.sx.write(self.sx.RegLEDDriverEnableB, 0b11111111)
         # turn off all leds
-        sx.write(sx.RegDataA, 0b11111111)
-        sx.write(sx.RegDataB, 0b11111111)
+        self.sx.write(self.sx.RegDataA, 0b11111111)
+        self.sx.write(self.sx.RegDataB, 0b11111111)
 
     def __led(self, id: int, on: bool):
         reg = self.sx.RegDataA
